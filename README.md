@@ -1,5 +1,5 @@
 # Ridge regression on California housing dataset
-NOTE: for a better visualization, download and run ridge.jpynb with your Jupyter Notebook or downlaod and open ridge.html in a web browser.
+NOTE: for a better visualization, download the repository and run ridge.jpynb with your Jupyter Notebook or downlaod and open ridge.html in a web browser.
 
 The project has been developed by Fabio Caironi as a part of the exam Machine Learning, Statistical Learning, Deep Learning and Artificial Intelligence. 
 

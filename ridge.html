@@ -13183,7 +13183,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1><center><span>Theoretical background</span></center></h1><h2 id="Ridge-regression">Ridge regression<a class="anchor-link" href="#Ridge-regression">&#182;</a></h2><p style="text-align: right;">Go to <a href="#Index">Index</a></p><p>The ridge learner is the solution of the $\ell\text{-} 2$ RLM problem with the square loss, i.e.:
 $$\begin{split} \mathbf{w}_{\alpha} &amp; = \  \underset{\mathbf{w}\in \mathbb{R}^d}{\text{argmin}} \Big( \| X\mathbf{w}-\mathbf{y}\|^2_2+\alpha\| \mathbf{w}\|^2_2\Big) \\
-&amp; = \ \underset{\mathbf{w}\in \mathbb{R}^d}{\text{argmin}} \Big(\frac1m \sum_{i=1}^m(\mathbf{x}_i^T\mathbf{w}-y_i)^2 + \alpha\sum_{j=1}^d w_j^2 \Big)
+&amp; = \ \underset{\mathbf{w}\in \mathbb{R}^d}{\text{argmin}} \Big(\sum_{i=1}^m(\mathbf{x}_i^T\mathbf{w}-y_i)^2 + \alpha\sum_{j=1}^d w_j^2 \Big)
 \end{split}
 \tag{1}
 $$
@@ -13896,7 +13896,7 @@ where $k$ is the number of <code>folds</code>.</li>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[9, 6, 0, 7], [1, 8, 5], [2, 3, 4]]</pre>
+<pre>[[4, 3, 5, 6], [8, 9, 0], [7, 2, 1]]</pre>
 </div>
 
 </div>
@@ -14985,7 +14985,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.colorbar.Colorbar at 0x25a7eeef6c8&gt;</pre>
+<pre>&lt;matplotlib.colorbar.Colorbar at 0x18a39efd988&gt;</pre>
 </div>
 
 </div>
@@ -15501,7 +15501,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x25a012ab708&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x18a3a7bdf08&gt;</pre>
 </div>
 
 </div>
@@ -15827,7 +15827,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x25a02339648&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x18a3cb8e208&gt;</pre>
 </div>
 
 </div>

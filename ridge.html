@@ -13289,29 +13289,19 @@ We see that a penalization on the squared k<sup>th</sup> weigth proportional to 
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Pre-processing">Pre-processing<a class="anchor-link" href="#Pre-processing">&#182;</a></h2><p style="text-align: right;">Go to <a href="#Index">Index</a></p><p>Given that the scale of features represent a threat to our ridge learner's functionality, we thereby take charge of applying transformations to our data to make it consistent and ready for the learner. This step is usually referred to as <strong>pre-processing</strong>. We anticipate that, in order to prevent the introduction of a bias, pre-processing will be carried out separately on training and test set whenever our dataset will be splitted. Go to <a href="#Cross-Validation">Cross Validation</a>. In addition, we ramerk that 'normalization' invalidates the representability of the output weights, meaning that we will need to perform linear combinations of them in order to recover the true contribute of each feature.
 <br>Several types of 'normalization' have been discussed in literature so far. Here we propose the main four: <strong><em>Rescaling</em></strong>, <strong><em>Mean-centering</em></strong>, <strong><em>$\rho$-standardization</em></strong> and <strong><em>$\Sigma$-standardization</em></strong>.</p>
-<ul>
-<li><p>#### Rescaling
-Rescaling amounts to resizing all features to a common range $[a,b]$ via a linear function. The affine transformation is defined as:
+<h4 id="Rescaling">Rescaling<a class="anchor-link" href="#Rescaling">&#182;</a></h4><p>Rescaling amounts to resizing all features to a common range $[a,b]$ via a linear function. The affine transformation is defined as:
 $$T^r_{a,b}(x_{ij})=b\cdot \frac{x_{ij}-m_j}{M_j-m_j}-a\cdot \frac{x_{ij}-M_j}{M_j-m_j} \tag{5} $$
 where $m_j = \underset{h}{\min}x_{hj}$  and   $M_j = \underset{h}{\max}x_{hj}$.<br>
 Then, one can easily show that $T^r_{a,b}$ maps the space of each feature to $[a,b]\subset \mathbb{R}$. In addition, the main statistics like mean and standard deviation are also properly rescaled along with the features, though they are not bound to a fixed interval.
 <br>In summary, with rescaling we ensure that all features fit a given range and therefore share the order of magnitude.</p>
-</li>
-<li><p>#### Mean-centering
-Subtracting the mean from the features is another very common pre-processing method. In particular, as we've seen, it is advised before performing PCD; but it is also required if we wish to work with data <a href="#Features-and-labels-centering">without introducing an intercept</a>. The transformation is:
+<h4 id="Mean-centering">Mean-centering<a class="anchor-link" href="#Mean-centering">&#182;</a></h4><p>Subtracting the mean from the features is another very common pre-processing method. In particular, as we've seen, it is advised before performing PCD; but it is also required if we wish to work with data <a href="#Features-and-labels-centering">without introducing an intercept</a>. The transformation is:
 $$T^c(x_{ij})=x_{ij}-\mu_j \quad \ \text{where } \mu_j=\frac1m\sum_{i=1}^m x_{ij} \tag{6}$$</p>
-</li>
-<li><p>#### $\rho$-standardization
-$\rho$-standardization or just <em>standardization</em> is one other popular way of addressing the problem of scale-sensitiveness. It was firstly used by Marquardt and Snee (1975) and is widely employed by statisticians. It amounts to dividing the features by their sample standard deviation:
+<h4 id="$\rho$-standardization">$\rho$-standardization<a class="anchor-link" href="#$\rho$-standardization">&#182;</a></h4><p>$\rho$-standardization or just <em>standardization</em> is one other popular way of addressing the problem of scale-sensitiveness. It was firstly used by Marquardt and Snee (1975) and is widely employed by statisticians. It amounts to dividing the features by their sample standard deviation:
 $$T^{\rho}(x_{ij})=\frac{x_{ij}}{\sigma_j} \quad \ \text{where } \sigma_j = \sqrt{\frac1m \sum_{i=1}^m(x_{ij}-\mu_j)^2} \tag{7}$$
 This method is usually paired with mean-centering in the composition $T^{c,\rho}:=T^{\rho}\circ T^c$. Sardy (2008) showed that RLM predictors trained with mean-centered and $\rho$-standardized data are scale-invariant.</p>
-</li>
-<li><p>#### $\Sigma$-standardization
-One further method advised by Sardy (2008) is called $\Sigma$-standardization and consists of post-multiplying the centered design matrix $\overline{X}$ by the square root diagonal matrix of the inverted moment matrix $(\overline{X}^T \overline{X})^{-1}$. The centered design matrix is simply the design matrix $X$ whose features have been mean-centered with $T^c$. Therefore, in symbols, the transformation as a matrix function $T^{\Sigma}: \mathbb{R}^{m\times d}\rightarrow \mathbb{R}^{m\times d}$, is written:
+<h4 id="$\Sigma$-standardization">$\Sigma$-standardization<a class="anchor-link" href="#$\Sigma$-standardization">&#182;</a></h4><p>One further method advised by Sardy (2008) is called $\Sigma$-standardization and consists of post-multiplying the centered design matrix $\overline{X}$ by the square root diagonal matrix of the inverted moment matrix $(\overline{X}^T \overline{X})^{-1}$. The centered design matrix is simply the design matrix $X$ whose features have been mean-centered with $T^c$. Therefore, in symbols, the transformation as a matrix function $T^{\Sigma}: \mathbb{R}^{m\times d}\rightarrow \mathbb{R}^{m\times d}$, is written:
 $$T^{\Sigma}(X)=\overline{X}\cdot \sqrt{\text{diag}\big[\big(\overline{X}^T\cdot \overline{X}\big)^{-1}\big]} \tag{8}$$
 Mean-centering plus $\Sigma$-standardization is proven to yield scale-invariant predictors, just as mean centering plus $\rho$-standardization.</p>
-</li>
-</ul>
 <p>Throughout the operational part, <a href="#Learning-of-median-house-value-predictors">Learning of median house value predictors</a>, we will make use of all these pre-processing methods: we will combine them in order to produce different learners and compare performances. As we will see, not necessarily the good theoretical results of PCD or of some pre-processing method will be transposed to high-performing predictors.</p>
 <p>Finally, it is worth mentioning that, with ridge regression, multiplying the labels by a constant do not bring any improvement to the mean squared error; in fact, it doesn't lead to any change at all in the relative MSE w.r.t. hyperparameter tuning, as the following lines show:
 $$\begin{split} \hat{\ell}_S(h_{\alpha})_{\mathbf{y}} &amp; = \frac1m \|X\mathbf{w}_{\alpha}-\mathbf{y} \|^2_2 = \frac1m \|X\big((\alpha I_d + X^TX)^{-1}X^T\mathbf{y}\big)-I_m\mathbf{y}\|^2_2 \\
@@ -13334,20 +13324,16 @@ $$ \begin{gather}
 y_i=\tilde{\mathbf{w}}^T\tilde{\mathbf{x}}_i = \mathbf{w}^T\mathbf{x}_i+w_0 \quad \forall i=1,\dots ,m
 \end{gather} \tag{9}$$</p>
 <p>Without any modification to the ridge regressor, though, the full-length weight vector $\tilde{\mathbf{w}}$ will cause the intercept to receive a penalization as well. Since we introduced an intercept to correct the bias, we don't want it to be penalized. There are two solutions to this problem:</p>
-<ol>
-<li>#### Modified ridge learner
-After adding a column of ones to $X$, <strong>slightly modify the ridge learner</strong> so that it won't penalize $w_0$. Practically, we remove the term $\alpha w_0^2$ from the mP $(1)$: this modification affects only the regularization term and not the empirical risk:
+<h4 id="Modified-ridge-learner">Modified ridge learner<a class="anchor-link" href="#Modified-ridge-learner">&#182;</a></h4><p>After adding a column of ones to $X$, <strong>slightly modify the ridge learner</strong> so that it won't penalize $w_0$. Practically, we remove the term $\alpha w_0^2$ from the mP $(1)$: this modification affects only the regularization term and not the empirical risk:
 $$\begin{split} \tilde{\mathbf{w}}_{\alpha} &amp; = \underset{\tilde{\mathbf{w}}=(w_0,\mathbf{w})\in \mathbb{R}^{d+1}}{\text{argmin}} \Big[ \big( \| \tilde{X}\tilde{\mathbf{w}}-\mathbf{y}\|^2_2+\alpha\| \tilde{\mathbf{w}}\|^2_2 \big) -\alpha w_0^2\Big] \\
 &amp; = \underset{\tilde{\mathbf{w}}=(w_0,\mathbf{w})\in \mathbb{R}^{d+1}}{\text{argmin}} \Big( \| \tilde{X}\tilde{\mathbf{w}}-\mathbf{y}\|^2_2+\alpha\| \mathbf{w}\|^2_2\Big)
 \end{split}$$
 where $\tilde{X}=[\mathbf{1}_m,X]$ and $\tilde{X}\tilde{\mathbf{w}} = X\mathbf{w}+w_0\mathbf{1}_m$.
 <br>Fortunately, also this mP admits a closed formula as its solution:
 $$ \tilde{\mathbf{w}}_{\alpha}=(\alpha \tilde{I}_{d+1} + \tilde{X}^T\tilde{X})^{-1}\tilde{X}^T\mathbf{y} \quad \text{where } \tilde{I}_{d+1}=\text{diag}(0,\mathbf{1}_d) \tag{10}$$
-Throughout this project, we will implement and use the adjusted ridge learner with the completed matrix $\tilde{X}$. Go to <a href="#Ridge-learner-with-matrix-algebra">Code</a><br></li>
-<li>#### Features and labels centering
-Another common method in literature is to <strong>center</strong> features and labels w.r.t. their mean (See <a href="#Mean-centering">Mean-centering</a>). If the undelying true model is linear, then the predicted label of the average $\overline{\mathbf{x}}:=\frac1m\sum_{i=1}^m\mathbf{x}_i$ is not far from $\overline{y}:=\frac1m\sum_{i=1}^my_i$ (with the assumpion of independent errors this can be proved in a statistical sense). As a consequence, de-meaning the features and the labels yields a small intercept as one could easily provethat won't be <hr></li>
-</ol>
-
+Throughout this project, we will implement and use the adjusted ridge learner with the completed matrix $\tilde{X}$. Go to <a href="#Ridge-learner-with-matrix-algebra">Code</a><br></p>
+<h4 id="Features-and-labels-centering">Features and labels centering<a class="anchor-link" href="#Features-and-labels-centering">&#182;</a></h4><p>Another common method in literature is to <strong>center</strong> features and labels w.r.t. their mean (See <a href="#Mean-centering">Mean-centering</a>). If the undelying true model is linear, then the predicted label of the average $\overline{\mathbf{x}}:=\frac1m\sum_{i=1}^m\mathbf{x}_i$ is not far from $\overline{y}:=\frac1m\sum_{i=1}^my_i$ (with the assumpion of independent errors this can be proved in a statistical sense). As a consequence, de-meaning the features and the labels yields a small intercept as one could easily provethat won't be</p>
+<hr>
 </div>
 </div>
 </div>
@@ -13384,14 +13370,7 @@ that is the average empirical risk evaluated on the training sets. It will be us
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1><center><span>Function library</span></center></h1><p style="text-align: right;">Go to <a href="#Index">Index</a></p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In the following, the main python functions for pre-processing, ridge regression, cross validation and PCD are defined.</p>
+<h1><center><span>Function library</span></center></h1><p style="text-align: right;">Go to <a href="#Index">Index</a></p><p>In the following, the main python functions for pre-processing, ridge regression, cross validation and PCD are defined.</p>
 
 </div>
 </div>
@@ -13917,7 +13896,7 @@ where $k$ is the number of <code>folds</code>.</li>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[1, 0, 9, 8], [2, 5, 3], [6, 7, 4]]</pre>
+<pre>[[9, 6, 0, 7], [1, 8, 5], [2, 3, 4]]</pre>
 </div>
 
 </div>
@@ -15006,7 +14985,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.colorbar.Colorbar at 0x223a7f80908&gt;</pre>
+<pre>&lt;matplotlib.colorbar.Colorbar at 0x25a7eeef6c8&gt;</pre>
 </div>
 
 </div>
@@ -15522,7 +15501,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x223aa314f48&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x25a012ab708&gt;</pre>
 </div>
 
 </div>
@@ -15848,7 +15827,7 @@ dtype: object</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x223aad0e508&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x25a02339648&gt;</pre>
 </div>
 
 </div>
